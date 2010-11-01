@@ -65,14 +65,15 @@ Saved_ClipBoard =
 
 
 ;**************************************************************************************************************************
+is_windowflag:=0
 If f_fileselected=                                             ;如果粘贴板里面没有内容，则进行candywindows进程
 {
     f_FileExt:="window"
-	f_fileselected=%currwin_name%
-	is_windowflag:=1
-	GOTO Lable_WindowSelected
-	;;ExitApp
-        return
+    f_fileselected=%currwin_name%
+    is_windowflag:=1
+    GOTO Lable_WindowSelected
+    ;;ExitApp
+    return
 }
 
 ;提取后缀
@@ -344,6 +345,8 @@ Lable_RunApp:
 			runn2="%f_fileselected%"
 		}
 		;MsgBox run %runn1%`, %runn2%`,%runn3%`,%runn4%
+                if runn1="" and runn2=""
+                  return
 		run,%runn1% %runn2%,%runn3%,%runn4% useerrorlevel
 		;1:程序 2:目标 3:工作目录 4:状态
 		;ExitApp
