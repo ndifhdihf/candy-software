@@ -6,6 +6,7 @@ Process Priority,,High
 #Include sub/ini.ahk
 #Include sub/web_search.ahk
 #Include sub/get_processname.ahk
+#Include sub/asc_count.ahk
 SetWorkingDir,%A_ScriptDir%                              ;设置工作目录为candy所在目录
 splitpath,A_ScriptDir,,,,,script_driver                  ;candy所在的盘符
 
@@ -183,7 +184,19 @@ Lable_DrawMenu:
     IfGreater,f_length_fileselected,20
     {
         stringleft,f_textmenu_left,f_fileselected,5
-        StringRight,f_textmenu_right,f_fileselected,12
+        If (Mod(AscCount(f_textmenu_left), 2) = 0)          ;5个字符中有偶数个ASCII，多取一个字节
+        {
+          stringleft,f_textmenu_left,f_fileselected,6
+          StringRight,f_textmenu_right,f_fileselected,11
+          If (Mod(AscCount(f_textmenu_right), 2) = 0)       ;11个字符中有偶数个ASCII，只能少取一个字节
+            StringRight,f_textmenu_right,f_fileselected,10
+        }
+        Else
+        {
+          StringRight,f_textmenu_right,f_fileselected,12
+          If (Mod(AscCount(f_textmenu_right), 2) = 1)       ;12个字符中有奇数个ASCII，少取一个字节
+            StringRight,f_textmenu_right,f_fileselected,11
+        }
         menu mymenu,add,%f_textmenu_left% …  %f_textmenu_right%,r_CopyFullPath     ;加第一行菜单，显示选中的内容，该菜单让你拷贝其内容
     }
     Else
