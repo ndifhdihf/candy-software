@@ -20,3 +20,7 @@ AscCount(str)
   }
   return %count%
 }
+Ischar(str)
+{
+  return Asc(str) <= 127
+}
